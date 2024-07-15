@@ -1,0 +1,27 @@
+<div className="rounded-lg bg-gray-100 p-4 mb-6">
+        <div className="mb-4">
+          <p className="text-2xl font-semibold">Medium</p>
+          <p className="text-gray-600 text-lg">Foundation</p>
+          <p className="text-gray-600 mt-5">Brand: Maeez Cosmetic</p>
+          <p className="text-gray-600">Price: RM49.00</p>
+        </div>
+        <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1">Try on</button>
+      </div>
+      <div className="rounded-lg bg-gray-100 p-4 mb-6">
+        <div className="mb-4">
+          <p className="text-2xl font-semibold">Medium Deep</p>
+          <p className="text-gray-600 text-lg">Foundation</p>
+          <p className="text-gray-600 mt-5">Brand: Maeez Cosmetic</p>
+          <p className="text-gray-600">Price: RM49.00</p>
+        </div>
+        <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1">Try on</button>
+      </div>
+      <div className="rounded-lg bg-gray-100 p-4 mb-6">
+        <div className="mb-4">
+          <p className="text-2xl font-semibold">Tan</p>
+          <p className="text-gray-600 text-lg">Foundation</p>
+          <p className="text-gray-600 mt-5">Brand: Maeez Cosmetic</p>
+          <p className="text-gray-600">Price: RM49.00</p>
+        </div>
+        <button className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1">Try on</button>
+      </div>
