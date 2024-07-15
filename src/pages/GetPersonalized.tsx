@@ -62,7 +62,7 @@ const GetPersonalizedPage = () => {
           <h2 className="text-xl mb-8 text-gray-700">It will help the website to recommend the most suitable make up for you</h2>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="Name">
-              Name
+              Name Anda
             </label>
             <input
               onChange={(e) => setName(e.target.value)}
