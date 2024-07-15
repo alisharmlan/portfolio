@@ -31,7 +31,7 @@ const LoginPage = () => {
       <div className="font-poppins bg-white shadow-2xl rounded-lg p-8 mb-4 border border-gray-200 max-w-md w-full">
       <form onSubmit={handleForm} className="form"> 
         <h1 className="text-4xl font-bold mb-4 text-gray-800">Welcome</h1>
-        <h2 className="text-xl font-semibold mb-8 text-gray-700">Login to continue</h2>
+        <h2 className="text-xl font-semibold mb-8 text-gray-700">Please login to continue</h2>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-semibold mb-2" htmlFor="Email">
             Email
