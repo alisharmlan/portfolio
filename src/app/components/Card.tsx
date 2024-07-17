@@ -2,6 +2,7 @@ import { QueryDocumentSnapshot, collection, addDoc, DocumentData } from 'firebas
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation'
 import addData from '@/firebase/firestore/addData';
+import Image from 'next/image'
 
 interface propData {
   product: QueryDocumentSnapshot<DocumentData, DocumentData>,
@@ -49,13 +50,22 @@ function Card(props: propData) {
 
   return (
     <div className="grid grid-rows-1 w-full bg-red-100 shadow-lg rounded-lg p-6">
-      <div className="w-full rounded-lg p-4 mb-6">
+
+      <div className="w-full rounded-lg border-dashed border-2 border-red-300 p-4 mb-6 grid grid-cols-2">  
         <div className="mb-4">
-          <p className="text-2xl font-semibold">{color}</p>
-          <p className="text-gray-600 text-lg">{type}</p>
-          <p className="text-gray-600 mt-5">Brand: {brand}</p>
-          <p className="text-gray-600">Price: {price}</p>
+          <p className="text-4xl text-red-300 font-bold">{color}</p>
+          <p className="text-xl text-gray-600 mt-5">{brand}</p>
+          <p className="text-gray-600 text-lg">{type}: {code}</p>
+          <p className="text-gray-600">Price: RM{price}</p>
           {/* <p className="text-gray-600">Suitablity: {price}%</p> */}
+        </div>
+        <div className="mb-4">
+          <Image
+          src="/m-f-brownies.png"
+          width={500}
+          height={500}
+          alt="Picture of the author"
+          />
         </div>
       </div>
       {
