@@ -61,7 +61,7 @@ function Card(props: propData) {
         </div>
         <div className="mb-4">
           <Image
-          src="/m-f-brownies.png"
+          src="/l-silk-1.png"
           width={500}
           height={500}
           alt="Picture of the author"

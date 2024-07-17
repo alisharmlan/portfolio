@@ -52,15 +52,12 @@ export default function Home() {
           <h2 className="text-2xl font-semibold mt-10">Welcome to Makeup Recommender</h2>
           <p className="text-lg">Try our latest makeup products and see how they look on you!</p>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center gap-4">
           <div className="bg-[#fc8f83] font-semibold shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105">
             <Link href={`/GetPersonalized?user=${userData ? encodeURIComponent(userData.uid) : encodeURIComponent("default")}`}>
               ✨  Get personalized Now ✨
             </Link>
           </div>
-        </div>
-
-        <div className="flex items-center justify-center">
           <div className="bg-[#fc8f83] font-semibold shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105">
             <Link href={`/ProfilePage?user=${userData ? encodeURIComponent(userData.uid) : encodeURIComponent("default")}`}>
               Profile
