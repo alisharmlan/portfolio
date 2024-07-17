@@ -18,9 +18,14 @@ export default function Home() {
     uid: string
   }
 
-  const authContext = useAuthContext();
+  interface AuthContext {
+    user?: UserData | {} |null,
+    uid?: string
+  }
+
+  const authContext: AuthContext = useAuthContext();
   const user = authContext.user || null;
-  const [userData, setUserData] = useState<UserData>();
+  const [userData, setUserData] = useState({});
   const [productData, setProductData] = useState<QueryDocumentSnapshot[]>();
   const router = useRouter()
 
@@ -102,7 +107,7 @@ export default function Home() {
             <Link href="https://www.youtube.com/watch?v=XMkowr-yIUU" passHref={true}>
               <div className="bg-white shadow-md rounded-lg p-4">
                 <h3 className="text-lg font-semibold mb-2">Tutorial 3</h3>
-                <p className="text-gray-600">Beginner's Guide to Contour Makeup for Every Face Shape.</p>
+                <p className="text-gray-600">Beginners Guide to Contour Makeup for Every Face Shape.</p>
               </div>
             </Link>
             {/* Add more tutorials as needed */}

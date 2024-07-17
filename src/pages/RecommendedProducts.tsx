@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import getDocuments from "../firebase/firestore/getData";
 import { QueryDocumentSnapshot } from 'firebase/firestore';
 
-function Recommended() {
+function RecommendedProducts() {
     const [products, setProducts] = useState<QueryDocumentSnapshot[]>();
     const GetAllProduct = async () => {
         const {result, error} = await getDocuments("products")
@@ -23,4 +23,4 @@ function Recommended() {
     )
 }
 
-export default Recommended
+export default RecommendedProducts
