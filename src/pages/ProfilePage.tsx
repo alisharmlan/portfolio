@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthContext } from '@/context/AuthContext';
 import getDocuments from '@/firebase/firestore/getData';
+import fetchUser, {User} from './GetUser';
+import Recommender from '@/app/Recommender';
 
 const ProfilePage: React.FC = () => {
   const authContext = useAuthContext();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const user = searchParams.get('user');
+  const user = searchParams?.get('user');
   const [savedProducts, setSavedProducts] = useState<string[]>([]);
 
   const [name, setName] = useState<String>();
@@ -20,42 +22,50 @@ const ProfilePage: React.FC = () => {
   const [allergy, setAllergy] = useState<String>("unknown");
   const [price, setPrice] = useState<String>("unknown");
 
-  const fetchUser = async () => {
-    const {result, error} = await getDocuments("users");
-    if(result == null) return;
-    const users = result.docs;
-    users.map((value, index) => {
-      const currentUser: Object = value._document.data.value.mapValue.fields;
-      console.log(currentUser);
+  // const fetchUser = async () => {
+  //   const {result, error} = await getDocuments("users");
+  //   if(result == null) return;
+  //   const users = result.docs;
+  //   users.map((value, index) => {
+  //     const currentUser: Object = value._document.data.value.mapValue.fields;
+  //     console.log(currentUser);
       
-      if(currentUser && "uuid" in currentUser && currentUser.uuid.stringValue == user){
-        // console.log(`${currentUser.uuid.stringValue} == ${user}: ${currentUser.uuid.stringValue == user}`);
-        console.log("User exists!");
-        setData(currentUser);
+  //     if(currentUser && "uuid" in currentUser && currentUser.uuid.stringValue == user){
+  //       // console.log(`${currentUser.uuid.stringValue} == ${user}: ${currentUser.uuid.stringValue == user}`);
+  //       console.log("User exists!");
+  //       setData(currentUser);
+  //     }      
+  //   })
+  // }
+
+  
+
+  const setData = async (currentUser: User) => {
+    console.log(currentUser);
+    if(currentUser){
+      setName(currentUser.name?.stringValue);
+      setAge(currentUser.age?.integerValue);
+      let currentUserPreferences = currentUser.preferences?.mapValue.fields;
+      if(currentUserPreferences){
+        setSkintone(currentUserPreferences.skintone.stringValue);
+        setSkincolor(currentUserPreferences.skincolor.stringValue);
+        setSkintype(currentUserPreferences.skintype.stringValue);
+        setUndertone(currentUserPreferences.undertone.stringValue);
       }
-        
-      
-    })
+      // setSavedProducts({
+      //   currentUser.savedProducts.
+      // })
+      fetchSavedProducts(currentUser.savedProducts);
+    }
   }
+  const fetchSavedProducts = (userProducts: {
+    mapValue: {
+      fields: {}
+    }
+  } | undefined) => {
 
-  const setData = (currentUser: Object) => {
-    setName(currentUser.name.stringValue);
-    setAge(currentUser.age.integerValue);
-    let currentUserPreferences = currentUser.preferences.mapValue.fields;
-    setSkintone(currentUserPreferences.skintone.stringValue);
-    setSkincolor(currentUserPreferences.skincolor.stringValue);
-    setSkintype(currentUserPreferences.skintype.stringValue);
-    setUndertone(currentUserPreferences.undertone.stringValue);
-    // setSavedProducts({
-    //   currentUser.savedProducts.
-    // })
-    fetchSavedProducts(currentUser.savedProducts)
-  }
-
-  const fetchSavedProducts = (userProducts: Object) => {
-    console.log(userProducts.mapValue.fields);
-
-    let products = Object.keys(userProducts.mapValue.fields).map((value, index) => {
+    if(userProducts == undefined) return;
+    let products = Object.keys(userProducts?.mapValue.fields).map((value, index) => {
       return value
     })
 
@@ -65,7 +75,15 @@ const ProfilePage: React.FC = () => {
   }
 
   useEffect(() => {
-    fetchUser();
+    (
+      async () => {
+        const userData = await fetchUser(user); 
+        if(userData)
+          setData(userData);
+      }
+    )()
+
+      Recommender(user);
   }, [user]);
 
   return (
@@ -105,14 +123,11 @@ const ProfilePage: React.FC = () => {
             </div>
             <div className="p-4 bg-pink-100 rounded-lg shadow">
               <h3 className="text-pink-600">Age:</h3>
-              <p className="text-pink-800">{age}</p>
+              <p className="text-pink-800">{age?.toString()}</p>
             </div>
           </div>
         </div>
         <div className="mt-6">
-          <button onClick={fetchUser}>
-            Clear Products
-          </button>
           <h2 className="text-2xl font-semibold text-pink-700">Saved Products</h2>
           <ul className="mt-2">
             {savedProducts.length > 0 ? (

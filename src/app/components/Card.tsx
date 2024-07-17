@@ -5,7 +5,7 @@ import addData from '@/firebase/firestore/addData';
 
 interface propData {
   product: QueryDocumentSnapshot<DocumentData, DocumentData>,
-  user: Object
+  user: {} | null
 }
 
 function Card(props: propData) {
