@@ -56,7 +56,7 @@ const GetPersonalizedPage = () => {
     const { result, error } = await addData("users", user, updatedUserData);
     console.log(result);
 
-    return router.push("/Recommended")
+    return router.push("/RecommendedProducts?user="+user);
   }
 
   return (

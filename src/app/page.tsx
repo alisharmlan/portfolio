@@ -35,19 +35,15 @@ export default function Home() {
       return router.push("/LoginPage")
     }
     setUserData(user)
+    fetchAllProducts();
   }, [user])
 
   const fetchAllProducts = async () => {
     const { result, error } = await getDocuments("products")
     if (result == null || error) return;
     setProductData(result.docs)
-    console.log(productData);
   }
-
-  useEffect(() => {
-    fetchAllProducts();
-  }, [])
-
+  
   return (
     <div className="bg-[#FCB9B2] min-h-screen flex flex-col">
       <Header />

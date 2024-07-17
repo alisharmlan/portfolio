@@ -10,7 +10,7 @@ export default async function getDocuments(collectionName) {
 
     try {
         result = await getDocs(collRef);
-        console.log(result);
+        // console.log(result);
     } catch (e) {
         error = e;
     }
