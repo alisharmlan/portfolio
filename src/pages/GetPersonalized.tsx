@@ -108,7 +108,10 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2" htmlFor="Age">
+            <label
+              className="block text-sm text-gray-700 font-semibold mb-2"
+              htmlFor="Age"
+            >
               Skintype
             </label>
             <div className="grid grid-flow-col-dense text-gray-700">
@@ -362,7 +365,7 @@ const GetPersonalizedPage = () => {
               </label>
             </div>
           </div>
-          <div className='grid grid-flow-col mt-10'>  
+          <div className="grid grid-flow-col mt-10">
             <button
               className="mr-5 font-poppins bg-pink-100 hover:bg-pink-300 text-pink-400 font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
               type="button"
