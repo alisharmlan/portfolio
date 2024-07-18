@@ -15,7 +15,9 @@ const config: Config = {
       },
       
       fontFamily:{
-        poppins: ["Poppins", "sans-serif"]
+        poppins: ["Poppins", "sans-serif"],
+        playwrite: ["Playwrite HU"],
+        bodoni: ["Bodoni Moda SC"]
       }
 
     },
