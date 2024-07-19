@@ -63,7 +63,7 @@ function Card(props: propData) {
           </p>
           <p className="text-gray-600">Price: RM{price}</p>
         </div>
-        <div className="mb-4">
+        <div className="mb-4 hidden xl:block">
           <Image
             src={`/${productid}.${filetype}`}
             width={500}
