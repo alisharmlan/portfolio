@@ -44,50 +44,83 @@ function RecommendedProducts() {
 
     const [calcLoading, setCalcLoading] = useState<boolean>(true);
     const CalculateCompatibility = async (data?: User) => {
-      if(!data) return;
+      try{
+        if(!data || !products) return;
+  
+        const {name, preferences} = data;
+        if(!preferences) return;
+        const preferencesFields = preferences.mapValue;
+  
+        console.log(`User ${name.stringValue.toString()} is being calculated!`);
+        products.map(
+          (product, index) => {
+            CalculateProduct(preferencesFields, product.data() as Product);
+          }
+        )
+        
+      }
+      catch (e) {
+        console.log(e);
+      }
+      finally{
+        // when all is completed
+        setCalcLoading(false);
+      }
+    }
 
-      const {name, preferences} = data;
+    interface Product {
+      brand: string;
+      price: string;
+      color: string;
+      code: string;
+      type: string;
+    }
 
-      console.log(`User ${name.stringValue.toString()} is being calculated!`);
+    // calculating user w product
+    const CalculateProduct = async (preference: {}, product: Product) =>{
+      console.log(`Product: ${product.brand}`);
       
-      // when all is completed
-      setCalcLoading(false);
     }
     
     return (
-      <div className="flex justify-center items-center h-screen w-screen bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
-        <button onClick={fetchAllProducts}>Get All Products</button>
-        {
-          user != null || undefined ? (
-            // if the user exist
+      <>
+      
+        <div> </div>
+        <div className="flex justify-center items-center h-screen w-screen bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
+          <button onClick={fetchAllProducts}>Get All Products</button>
+          {
+            user != null || undefined ? (
+              // if the user exist
+              <>
+                {
+                  calcLoading ? (
+                    // if calculation still loading
+                    <> 
+                      <h1>
+                        loading...
+                      </h1>
+                    </>
+                  ) : (
+                    // if done calculation
+                    <>
+                      <h1>
+                        {
+                          products ? (<>hi: {products[0].data().brand}</>) : (<></>)
+                        }
+                      </h1>
+                    </>
+                  )
+                } 
+              </>
+          ): (
+            // If the user doesn't exist
             <>
-              {
-                calcLoading ? (
-                  // if calculation still loading
-                  <> 
-                    <h1>
-                      loading...
-                    </h1>
-                  </>
-                ) : (
-                  // if done calculation
-                  <>
-                    <h1>
-                      {products ? (<>hi: {products[0].data().brand}</>) : (<></>)
-                      }
-                    </h1>
-                  </>
-                )
-              } 
+              <h1> Error user not found!</h1>
             </>
-        ): (
-          // If the user doesn't exist
-          <>
-            <h1> Error user not found!</h1>
-          </>
-        )
-      }
-      </div>
+          )
+        }
+        </div>
+      </>
     );
 }
 

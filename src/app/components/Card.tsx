@@ -21,13 +21,13 @@ function Card(props: propData) {
 
   const {product, user} = props;
 
-  const productInfo = product._document.data.value.mapValue.fields;
+  const productInfo = product.data();
   const [name, setName] = useState<string>("test");
-  const [brand, setBrand] = useState<string>(productInfo.brand.stringValue);
-  const [price, setPrice] = useState<string>(productInfo.price.stringValue);
-  const [code, setCode] = useState<string>(productInfo.code.stringValue);
-  const [color, setColor] = useState<string>(productInfo.color.stringValue);
-  const [type, setType] = useState<string>(productInfo.type.stringValue);
+  const [brand, setBrand] = useState<string>(productInfo.brand);
+  const [price, setPrice] = useState<string>(productInfo.price);
+  const [code, setCode] = useState<string>(productInfo.code);
+  const [color, setColor] = useState<string>(productInfo.color);
+  const [type, setType] = useState<string>(productInfo.type);
   const [productid, setProductid] = useState<string>(GetProductID({brand, type, code}));
 
   const [isSaved, setIsSaved] = useState<Boolean>(false);
