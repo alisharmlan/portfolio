@@ -26,6 +26,159 @@ function RecommendedProducts() {
   }, [products]);
 
   const [userData, setUserData] = useState<User>(); // the data from the user used for the comparison
+  
+
+
+  const GetAllergies = async (ingredients: string) => {
+    if(!ingredients) return "none";
+
+    ingredients = ingredients.replaceAll(" ", "").toLowerCase();
+    return ingredients;
+  };
+  const GetUndertones = async (undertones: string) => {
+    if(!undertones) return "none";
+
+    undertones = undertones.replaceAll(" ", "").toLowerCase();
+    return undertones;
+  };
+
+  const UserLog = async (data: User) => {
+    console.log(
+      `User ${data.name.stringValue}:
+          Skintone: ${data.preferences?.mapValue.fields.skintone.stringValue}
+          Skincolor: ${data.preferences?.mapValue.fields.skincolor.stringValue}
+          Undertone: ${data.preferences?.mapValue.fields.undertone.stringValue}
+          Skintype: ${data.preferences?.mapValue.fields.skintype.stringValue}
+          Allergy: ${data.preferences?.mapValue.fields.allergy.stringValue}
+        `
+    );
+  };
+
+  // calculating user w product
+  const CalculateProduct = async (preference: Preferences, product: Product) => {
+    let score = 5;
+
+    let allergies = await GetAllergies(product.ingredients);
+    let undertones = await GetUndertones(product.undertone);
+    let preferenceFields = preference.mapValue.fields;
+
+    // console.log(
+    //   `Product: ${product.brand}-${product.type}-${product.code}-${product.undertone}`
+    // );
+
+    if (allergies?.match(preferenceFields.allergy.stringValue.toLowerCase())) {
+      console.log(
+        `user ${preferenceFields.allergy.stringValue.toLowerCase()} can't use because this product contains [${allergies?.match(
+          preferenceFields.allergy.stringValue.toLowerCase()
+        )}]`
+      );
+
+      return 0;
+    }
+
+    if (!product.color.includes(preferenceFields.skincolor.stringValue.toLowerCase())) {
+      console.log(
+        // `user ${preferenceFields.skincolor.stringValue} doesn't have a ${product.color} skincolor`
+      );
+      score = score - 2;
+    }
+
+    if (
+      !undertones?.match(preferenceFields.undertone.stringValue.toLowerCase())
+    ) {
+      console.log(
+        // `user ${preferenceFields.undertone.stringValue} doesn't match ${undertones} undertones`
+      );
+      score--;
+    }
+
+    if (!product.tone.includes(preferenceFields.skintone.stringValue.toLowerCase())) {
+      console.log(
+        // `user ${preferenceFields.skintone.stringValue} doesn't have a ${product.tone} skintone`
+      );
+      score--;
+    }
+
+    let price = +product.price;
+    if (price > +preferenceFields.price.stringValue) {
+      // console.log(`user doesn't want to spend more than ${price} skintone`);
+      score--;
+    }
+
+    console.log(
+      // `Product: ${product.brand}-${product.type}-${product.code}-${allergies}
+      // Score: ${score}`
+    );
+
+    return score;
+  };
+  
+  interface Preferences {
+    mapValue: {
+      fields: {
+        allergy: {
+          stringValue: string;
+        };
+        price: {
+          stringValue: string;
+        };
+        skincolor: {
+          stringValue: string;
+        };
+        skintone: {
+          stringValue: string
+        };
+        undertone: {
+          stringValue: string
+        }
+      }
+    }
+  }
+
+  interface Listing {
+    product: any;
+    score: any
+  }
+  const [calcLoading, setCalcLoading] = useState<boolean>(true);
+  const [productsListing, setProductsListing] = useState<Listing[]>([]);
+  const CalculateCompatibility = async (data?: User) => {
+    try {
+      if (!data || !products) return;
+
+      const { name, preferences } = data;
+      if (!preferences) return;
+      const preferencesFields: Preferences = preferences;
+
+      await UserLog(data);
+      let maxScore: Promise<number>;
+      products.map(async (product, index) => {
+        let score = await CalculateProduct(preferencesFields, product.data() as Product);
+        // why this no update?
+        setProductsListing((current) => [...current, {product: product, score: score}])
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      // when all is completed
+      console.log(await productsListing.length);
+      
+      setCalcLoading(false);
+    }
+  };
+
+  
+
+  interface Product {
+    tone: string;
+    brand: string;
+    price: string;
+    color: string;
+    code: string;
+    type: string;
+    ingredients: string;
+    undertone: string;
+  }
+
   useEffect(() => {
     if (!user) {
       return;
@@ -38,52 +191,11 @@ function RecommendedProducts() {
       setUserData(data);
       await CalculateCompatibility(data);
     })();
-  }, [user, fetchAllProducts, products]);
-
-  const [calcLoading, setCalcLoading] = useState<boolean>(true);
-  const CalculateCompatibility = async (data?: User) => {
-    try {
-      if (!data || !products) return;
-
-      const { name, preferences } = data;
-      if (!preferences) return;
-      const preferencesFields = preferences.mapValue;
-
-      await UserLog(data);
-      products.map((product, index) => {
-        CalculateProduct(preferencesFields, product.data() as Product);
-      });
-    } catch (e) {
-      console.log(e);
-    } finally {
-      // when all is completed
-      setCalcLoading(false);
-    }
-  };
-
-  const UserLog = async (data: User) => {
-    console.log(
-      `User ${data.name.stringValue}:
-          Skintone: ${data.preferences?.mapValue.fields.skintone.stringValue}
-          Skincolor: ${data.preferences?.mapValue.fields.skincolor.stringValue}
-          Undertone: ${data.preferences?.mapValue.fields.undertone.stringValue}
-          Skintype: ${data.preferences?.mapValue.fields.skintype.stringValue}
-        `
-    );
-  };
-
-  interface Product {
-    brand: string;
-    price: string;
-    color: string;
-    code: string;
-    type: string;
-  }
-
-  // calculating user w product
-  const CalculateProduct = async (preference: {}, product: Product) => {
-    console.log(`Product: ${product.brand}-${product.type}-${product.code}`);
-  };
+  }, [
+    user,
+    fetchAllProducts,
+    products,
+  ]);
 
   return (
     <>
@@ -112,7 +224,13 @@ function RecommendedProducts() {
                 // if done calculation
                 <>
                   <h1>
-                    {products ? <>hi: {products[0].data().brand}</> : <></>}
+                    {products ? 
+                      <>
+                        {
+                          productsListing.map((value) => value.score.toString())
+                        }
+                      </> 
+                    : <></>}
                   </h1>
                 </>
               )}

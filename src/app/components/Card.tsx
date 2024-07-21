@@ -76,7 +76,7 @@ function Card(props: propData) {
       </div>
       {!isSaved ? (
         <button
-          className="bg-[#fc8f83] hover:bg-[#fa7061] text-red-300 font-bold py-2 px-4 rounded-full mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1"
+          className="bg-[#fc8f83] hover:bg-[#fa7061] text-red-100 font-bold py-2 px-4 rounded-full mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1"
           onClick={saveToProfile}
         >
           Save to profile
