@@ -16,18 +16,17 @@ function GetProductID(productInfo: {brand: string, type: string, code: string}):
 
 
 function Card(props: propData) {
-  // console.log(product.data);
-  // console.log(user.uuid);
 
   const {product, user} = props;
 
-  const productInfo = product._document.data.value.mapValue.fields;
+  const productInfo = product.data();
   const [name, setName] = useState<string>("test");
-  const [brand, setBrand] = useState<string>(productInfo.brand.stringValue);
-  const [price, setPrice] = useState<string>(productInfo.price.stringValue);
-  const [code, setCode] = useState<string>(productInfo.code.stringValue);
-  const [color, setColor] = useState<string>(productInfo.color.stringValue);
-  const [type, setType] = useState<string>(productInfo.type.stringValue);
+  const [brand, setBrand] = useState<string>(productInfo.brand);
+  const [price, setPrice] = useState<string>(productInfo.price);
+  const [code, setCode] = useState<string>(productInfo.code);
+  const [color, setColor] = useState<string>(productInfo.color);
+  const [type, setType] = useState<string>(productInfo.type);
+  const [ingredients, setIngredients] = useState<string>(productInfo.ingredients);
   const [productid, setProductid] = useState<string>(GetProductID({brand, type, code}));
 
   const [isSaved, setIsSaved] = useState<Boolean>(false);
@@ -56,12 +55,14 @@ function Card(props: propData) {
     <div className="grid grid-rows-1 w-full bg-red-100 shadow-lg rounded-lg p-6">
       <div className="w-full rounded-lg border-dashed border-2 border-red-300 p-4 mb-6 grid grid-cols-2">
         <div className="mb-4">
-          <p className="text-4xl text-red-300 font-bold">{color}</p>
-          <p className="text-xl text-gray-600 mt-5">{brand}</p>
-          <p className="text-gray-600 text-lg">
+          <p className="text-4xl text-red-400 font-bold">{brand}</p>
+          {/* <p className="text-xl text-gray-600 mt-5">{brand}</p> */}
+          <p className="text-gray-600 text-lg mt-5">
             {type}: {code}
           </p>
           <p className="text-gray-600">Price: RM{price}</p>
+          <p className="text-gray-600 text-xs">This contains: </p>
+          <p className="text-gray-600 italic text-xs">{ingredients}</p>
         </div>
         <div className="mb-4 hidden xl:block">
           <Image
@@ -75,7 +76,7 @@ function Card(props: propData) {
       </div>
       {!isSaved ? (
         <button
-          className="bg-[#fc8f83] hover:bg-[#fa7061] text-white font-bold py-2 px-4 rounded-full mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1"
+          className="bg-[#fc8f83] hover:bg-[#fa7061] text-red-100 font-bold py-2 px-4 rounded-full mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1"
           onClick={saveToProfile}
         >
           Save to profile

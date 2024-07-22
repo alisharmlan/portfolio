@@ -61,28 +61,25 @@ const GetPersonalizedPage = () => {
 
   return (
     <div className="flex justify-center items-center h-screen w-screen bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
-      <div className="font-poppins bg-white shadow-xl rounded-lg p-8 mb-4">
+      <div className="font-poppins bg-red-100 shadow-xl rounded-lg p-8 mb-4 text-red-400">
         <form onSubmit={handleForm} className="w-full">
-          <h1 className="text-4xl font-bold mb-4 text-gray-800">
+          <h1 className="text-4xl font-bold mb-4 text-red-500">
             Let us Get Personalized
           </h1>
-          <h2 className="text-xl font-semibold text-gray-700">
+          <h2 className="text-xl font-semibold text-red-500">
             Update your make up preference
           </h2>
-          <h2 className="text-xl mb-8 text-gray-700">
+          <h2 className="text-xl mb-8 ">
             It will help the website to recommend the most suitable make up for
             you
           </h2>
           <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-semibold mb-2"
-              htmlFor="Name"
-            >
+            <label className="block  text-sm font-semibold mb-2" htmlFor="Name">
               Name
             </label>
             <input
               onChange={(e) => setName(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-red-400"
               id="Name"
               type="text"
               placeholder={name}
@@ -91,15 +88,12 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-semibold mb-2"
-              htmlFor="Age"
-            >
+            <label className="block  text-sm font-semibold mb-2" htmlFor="Age">
               Age
             </label>
             <input
               onChange={(e) => setAge(Number(e.target.value))}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-red-400"
               id="Age"
               type="number"
               placeholder={age?.toString()}
@@ -108,16 +102,13 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              className="block text-sm text-gray-700 font-semibold mb-2"
-              htmlFor="Age"
-            >
+            <label className="block text-sm  font-semibold mb-2" htmlFor="Age">
               Skintype
             </label>
-            <div className="grid grid-flow-col-dense text-gray-700">
-              <label className="mr-5">
+            <div className="grid grid-flow-col-dense focus:ring-red-600">
+              <label className="mr-5 ">
                 <input
-                  className="mr-2"
+                  className="mr-2 "
                   onChange={() => setSkintype("Normal")}
                   checked={skintype === "Normal"}
                   type="radio"
@@ -159,10 +150,10 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-semibold mb-2">
+            <label className="block  text-sm font-semibold mb-2">
               Skincolor
             </label>
-            <div className="grid grid-flow-col-dense text-gray-700">
+            <div className="grid grid-flow-col-dense ">
               <label className="mr-2">
                 <input
                   className="mr-2"
@@ -227,10 +218,10 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-semibold mb-2">
+            <label className="block  text-sm font-semibold mb-2">
               Skintone
             </label>
-            <div className="grid grid-flow-col-dense text-gray-700">
+            <div className="grid grid-flow-col-dense ">
               <label className="mr-5">
                 <input
                   className="mr-2"
@@ -275,10 +266,10 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-semibold mb-2">
+            <label className="block  text-sm font-semibold mb-2">
               Undertone
             </label>
-            <div className="grid grid-flow-col-dense text-gray-700">
+            <div className="grid grid-flow-col-dense ">
               <label className="mr-2">
                 <input
                   className="mr-2"
@@ -324,14 +315,14 @@ const GetPersonalizedPage = () => {
 
           <div className="mb-4">
             <label
-              className="block text-gray-700 text-sm font-semibold mb-2"
+              className="block  text-sm font-semibold mb-2"
               htmlFor="Allergy"
             >
               Allergy
             </label>
             <input
               onChange={(e) => setAllergy(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-none focus:shadow-outline"
               id="Allergy"
               type="text"
               placeholder="Allergy"
@@ -339,10 +330,8 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-semibold mb-2">
-              Price
-            </label>
-            <div className="grid grid-flow-col-dense text-gray-700">
+            <label className="block  text-sm font-semibold mb-2">Price</label>
+            <div className="grid grid-flow-col-dense ">
               <label className="mr-2">
                 <input
                   className="mr-2"
@@ -367,7 +356,7 @@ const GetPersonalizedPage = () => {
           </div>
           <div className="grid grid-flow-col mt-10">
             <button
-              className="mr-5 font-poppins bg-pink-100 hover:bg-pink-300 text-pink-400 font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
+              className="mr-5 font-poppins text-[#fa7061] hover:text-red-500 bg-red-100 font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
               type="button"
               onClick={() => {
                 router.push("/");
@@ -376,7 +365,7 @@ const GetPersonalizedPage = () => {
               Back
             </button>
             <button
-              className="font-poppins bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
+              className="font-poppins bg-[#fc8f83] hover:hover:bg-[#fa7061] text-white font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
               type="submit"
             >
               Get me personalized now!
