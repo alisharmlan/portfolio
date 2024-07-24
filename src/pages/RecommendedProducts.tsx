@@ -7,6 +7,8 @@ import { useAuthContext } from "@/context/AuthContext";
 import fetchUser, { User } from "./GetUser";
 import { useSearchParams } from "next/navigation";
 import CardRecommender from "@/app/components/CardRecommender";
+import Link from "next/link";
+import router from "next/router";
 
 function RecommendedProducts() {
   const authContext: { user?: string } = useAuthContext();
@@ -70,15 +72,15 @@ function RecommendedProducts() {
     // );
 
     if (allergies?.match(preferenceFields.allergy.stringValue.toLowerCase())) {
-      console.log(
-        `user ${preferenceFields.allergy.stringValue.toLowerCase()} can't use because this product contains [${allergies?.match(
-          preferenceFields.allergy.stringValue.toLowerCase()
-        )}]`
-      );
+      // console.log(
+      //   `User ${preferenceFields.allergy.stringValue.toLowerCase()} can't use because this product contains [${allergies?.match(
+      //     preferenceFields.allergy.stringValue.toLowerCase()
+      //   )}]`
+      // );
 
       score = 0;
       reject.push(
-        `user ${preferenceFields.allergy.stringValue.toLowerCase()} can't use because this product contains [${allergies?.match(
+        `User can't use because this product contains [${allergies?.match(
           preferenceFields.allergy.stringValue.toLowerCase()
         )}]`
       );
@@ -93,9 +95,16 @@ function RecommendedProducts() {
         // `user ${preferenceFields.skincolor.stringValue} doesn't have a ${product.color} skincolor`
       );
       score = score - 2;
-      reject.push(
-        `user ${preferenceFields.skincolor.stringValue} doesn't have a ${product.color} skincolor`
-      );
+      if (preferenceFields.skincolor.stringValue.toLowerCase().match("unknown")) {
+        reject.push(
+          `User doesn't know their skincolor`
+        );
+      }
+      else{
+        reject.push(
+          `User ${preferenceFields.skincolor.stringValue} skin color doesn't have a ${product.color} skincolor`
+        );
+      }
     }
 
     if (
@@ -105,9 +114,16 @@ function RecommendedProducts() {
         // `user ${preferenceFields.undertone.stringValue} doesn't match ${undertones} undertones`
       );
       score--;
-      reject.push(
-        `user ${preferenceFields.undertone.stringValue} doesn't match ${undertones} undertones`
-      );
+      if (preferenceFields.undertone.stringValue.toLowerCase().match("unknown")) {
+        reject.push(
+          `User doesn't know their undertone`
+        );
+      }
+      else{
+        reject.push(
+          `User ${preferenceFields.undertone.stringValue} undertones doesn't match ${product.undertone} undertones`
+        );
+      }
     }
 
     if (!product.tone.includes(preferenceFields.skintone.stringValue.toLowerCase())) {
@@ -115,14 +131,23 @@ function RecommendedProducts() {
         // `user ${preferenceFields.skintone.stringValue} doesn't have a ${product.tone} skintone`
       );
       score--;
-      reject.push(`user ${preferenceFields.skintone.stringValue} doesn't have a ${product.tone} skintone`);
+      if (preferenceFields.skincolor.stringValue.toLowerCase().match("unknown")) {
+        reject.push(
+          `User doesn't know their skintone`
+        );
+      }
+      else{
+        reject.push(
+          `User ${preferenceFields.skintone.stringValue} skintone doesn't have a ${product.tone} skintone`
+        );
+      }
     }
 
     let price = +product.price;
     if (price > +preferenceFields.price.stringValue) {
       // console.log(`user doesn't want to spend more than ${price} skintone`);
       score--;
-      reject.push(`user doesn't want to spend more than ${price} skintone`);
+      reject.push(`User doesn't want to spend more than RM${price}`);
     }
 
     console.log(
@@ -242,7 +267,15 @@ function RecommendedProducts() {
         </div>
         <div className="flex flex-col flex-grow justify-center items-center h-full w-full bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
           {/* <button onClick={fetchAllProducts}>Get All Products</button> */}
-          <div className="flex items-center justify-center mt-14 border-b-4 border-red-100 py-5">
+          <div className="flex items-center justify-center mt-14 border-red-100 py-5">
+            <div className="bg-[#ff5f4e] font-semibold shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105">
+              <button onClick={router.back}
+              >
+                Profile
+              </button>
+            </div>
+          </div>
+          <div className="flex items-center justify-center mt-5 border-b-4 border-red-100 py-5">
             <h2 className="font-bold text-4xl">Recommended Products</h2>
           </div>
           {user != null || undefined ? (
