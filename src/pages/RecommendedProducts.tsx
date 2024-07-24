@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "@/app/globals.css";
 import React, { useCallback, useEffect, useState } from "react";
 import getDocuments from "@/firebase/firestore/getData";
@@ -5,6 +6,7 @@ import { QueryDocumentSnapshot } from "firebase/firestore";
 import { useAuthContext } from "@/context/AuthContext";
 import fetchUser, { User } from "./GetUser";
 import { useSearchParams } from "next/navigation";
+import CardRecommender from "@/app/components/CardRecommender";
 
 function RecommendedProducts() {
   const authContext: { user?: string } = useAuthContext();
@@ -57,6 +59,7 @@ function RecommendedProducts() {
   // calculating user w product
   const CalculateProduct = async (preference: Preferences, product: Product) => {
     let score = 5;
+    let reject: string[] = [];
 
     let allergies = await GetAllergies(product.ingredients);
     let undertones = await GetUndertones(product.undertone);
@@ -73,7 +76,16 @@ function RecommendedProducts() {
         )}]`
       );
 
-      return 0;
+      score = 0;
+      reject.push(
+        `user ${preferenceFields.allergy.stringValue.toLowerCase()} can't use because this product contains [${allergies?.match(
+          preferenceFields.allergy.stringValue.toLowerCase()
+        )}]`
+      );
+
+      return {
+        score, reject
+      };
     }
 
     if (!product.color.includes(preferenceFields.skincolor.stringValue.toLowerCase())) {
@@ -81,6 +93,9 @@ function RecommendedProducts() {
         // `user ${preferenceFields.skincolor.stringValue} doesn't have a ${product.color} skincolor`
       );
       score = score - 2;
+      reject.push(
+        `user ${preferenceFields.skincolor.stringValue} doesn't have a ${product.color} skincolor`
+      );
     }
 
     if (
@@ -90,6 +105,9 @@ function RecommendedProducts() {
         // `user ${preferenceFields.undertone.stringValue} doesn't match ${undertones} undertones`
       );
       score--;
+      reject.push(
+        `user ${preferenceFields.undertone.stringValue} doesn't match ${undertones} undertones`
+      );
     }
 
     if (!product.tone.includes(preferenceFields.skintone.stringValue.toLowerCase())) {
@@ -97,12 +115,14 @@ function RecommendedProducts() {
         // `user ${preferenceFields.skintone.stringValue} doesn't have a ${product.tone} skintone`
       );
       score--;
+      reject.push(`user ${preferenceFields.skintone.stringValue} doesn't have a ${product.tone} skintone`);
     }
 
     let price = +product.price;
     if (price > +preferenceFields.price.stringValue) {
       // console.log(`user doesn't want to spend more than ${price} skintone`);
       score--;
+      reject.push(`user doesn't want to spend more than ${price} skintone`);
     }
 
     console.log(
@@ -110,7 +130,7 @@ function RecommendedProducts() {
       // Score: ${score}`
     );
 
-    return score;
+    return {score, reject};
   };
   
   interface Preferences {
@@ -136,8 +156,9 @@ function RecommendedProducts() {
   }
 
   interface Listing {
-    product: any;
-    score: any
+    product: Product;
+    score: number,
+    reject: []
   }
   const [calcLoading, setCalcLoading] = useState<boolean>(true);
   const [productsListing, setProductsListing] = useState<Listing[]>([]);
@@ -150,12 +171,21 @@ function RecommendedProducts() {
       const preferencesFields: Preferences = preferences;
 
       await UserLog(data);
-      let maxScore: Promise<number>;
-      products.map(async (product, index) => {
-        let score = await CalculateProduct(preferencesFields, product.data() as Product);
-        // why this no update?
-        setProductsListing((current) => [...current, {product: product, score: score}])
-      });
+
+      const listing = await Promise.all(
+        products.map(async (product) => {
+          let {score, reject} = await CalculateProduct(
+            preferencesFields,
+            product.data() as Product
+          );
+          return { product: product.data() as Product, score: score, reject: reject};
+        })
+      );
+
+      setProductsListing([...listing].sort(
+        (a, b) => b.score - a.score
+      ) as Listing[]);
+
     } catch (e) {
       console.log(e);
     } finally {
@@ -210,8 +240,11 @@ function RecommendedProducts() {
             </p>
           </div>
         </div>
-        <div className="flex justify-center items-center h-screen w-screen bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
-          <button onClick={fetchAllProducts}>Get All Products</button>
+        <div className="flex flex-col flex-grow justify-center items-center h-full w-full bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
+          {/* <button onClick={fetchAllProducts}>Get All Products</button> */}
+          <div className="flex items-center justify-center mt-14 border-b-4 border-red-100 py-5">
+            <h2 className="font-bold text-4xl">Recommended Products</h2>
+          </div>
           {user != null || undefined ? (
             // if the user exist
             <>
@@ -223,15 +256,27 @@ function RecommendedProducts() {
               ) : (
                 // if done calculation
                 <>
-                  <h1>
-                    {products ? 
-                      <>
-                        {
-                          productsListing.map((value) => value.score.toString())
-                        }
-                      </> 
-                    : <></>}
-                  </h1>
+                  <div className="justify-center items-center content-center flex">
+                    {products ? (
+                      <div className="grid grid-cols-3 border-white p-5 gap-2">
+                        {/* Probably update this to show the stuffs */}
+                        {productsListing.map((value, index) => (
+                          <>
+                            {/* {`${value.product.brand.toString()} - ${value.score.toString()}`} */}
+                            <CardRecommender
+                              key={index}
+                              user={user}
+                              product={value.product}
+                              score={value.score}
+                              reject={value.reject}
+                            />
+                          </>
+                        ))}
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 </>
               )}
             </>
