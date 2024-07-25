@@ -1,10 +1,22 @@
 "use client"
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Aladin, Playfair_Display, Lilita_One } from 'next/font/google'
 import { AuthContextProvider } from '@/context/AuthContext'
 
 const inter = Inter({ subsets: ['latin'] })
+export const lilita = Lilita_One({
+  subsets: ['latin'],
+  weight: ['400']
+})
+export const aladin = Aladin({
+  subsets: ["latin"],
+  weight: ['400']
+})
+export const playfair = Playfair_Display({
+  subsets: ['latin'],
+  style: ['italic']
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,11 +30,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <AuthContextProvider>
-          {children}
-        </AuthContextProvider>
+      <body className={`${lilita.className}`}>
+        <AuthContextProvider>{children}</AuthContextProvider>
       </body>
     </html>
-  )
+  );
 }

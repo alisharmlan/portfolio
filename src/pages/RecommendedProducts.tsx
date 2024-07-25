@@ -9,6 +9,8 @@ import { useSearchParams } from "next/navigation";
 import CardRecommender from "@/app/components/CardRecommender";
 import Link from "next/link";
 import router from "next/router";
+import Header from "@/app/components/Header";
+import { lilita } from "@/app/layout";
 
 function RecommendedProducts() {
   const authContext: { user?: string } = useAuthContext();
@@ -254,29 +256,22 @@ function RecommendedProducts() {
 
   return (
     <>
-      <div className="bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8] min-h-screen flex flex-col">
-        <div className="text-white p-4 flex justify-start items-center">
-          <div className="container">
-            <h1 className="font-playwrite text-5xl lg:text-7xl font-bold">
-              Recommended Products
-            </h1>
-            <p className="text-lg lg:text-xl mt-2">
-              Experience Beauty with Confidence
-            </p>
-          </div>
+      <div className={`bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8] min-h-screen flex flex-col ${lilita.className}`}>
+        <div>
+          <Header user={user} />
         </div>
         <div className="flex flex-col flex-grow justify-center items-center h-full w-full bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
           {/* <button onClick={fetchAllProducts}>Get All Products</button> */}
-          <div className="flex items-center justify-center mt-14 border-red-100 py-5">
+          {/* <div className="flex items-center justify-center mt-14 border-red-100 py-5">
             <div className="bg-[#ff5f4e] font-semibold shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105">
               <button onClick={router.back}
               >
                 Profile
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="flex items-center justify-center mt-5 border-b-4 border-red-100 py-5">
-            <h2 className="font-bold text-4xl">Recommended Products</h2>
+            <h2 className=" text-6xl">Recommended Products</h2>
           </div>
           {user != null || undefined ? (
             // if the user exist
