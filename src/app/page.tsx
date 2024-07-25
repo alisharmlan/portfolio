@@ -11,6 +11,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import getDocuments from "@/firebase/firestore/getData"
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { playfair } from './layout';
 
 export default function Home() {
 
@@ -52,22 +53,24 @@ export default function Home() {
     // TODO: Randomise the products listing
     // if (!productData || doneRandomise) return;
     // randomiseProducts();
+
   }, [user]);
   
   return (
     <div className="bg-[#FCB9B2] min-h-screen flex flex-col">
-      <Header />
+      <Header user={user?.uid}/>
       <main className="flex-grow p-4">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold mt-10">
+          <h2 className={`text-7xl font-semibold`}>
             Welcome to Makeup Recommender
           </h2>
-          <p className="text-lg">
+
+          <p className="text-4xl">
             Try our latest makeup products and see how they look on you!
           </p>
         </div>
         <div className="flex items-center justify-center gap-4">
-          <div className="bg-[#fc8f83] font-semibold shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105">
+          <div className="bg-[#fc8f83] shadow-md rounded-lg w-72 text-xl p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105">
             <Link
               href={`/GetPersonalized?user=${
                 userData
@@ -78,7 +81,7 @@ export default function Home() {
               ✨ Get personalized Now ✨
             </Link>
           </div>
-          <div className="bg-[#fc8f83] font-semibold shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105">
+          {/* <div className="bg-[#fc8f83] shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105">
             <Link
               href={`/ProfilePage?user=${
                 userData
@@ -88,11 +91,11 @@ export default function Home() {
             >
               Profile
             </Link>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex items-center justify-center mt-14 border-b-4 border-red-100 py-5">
-          <h2 className="font-bold text-4xl">All the products</h2>
+          <h2 className="text-4xl">All the products</h2>
         </div>
 
         <div
@@ -123,7 +126,7 @@ export default function Home() {
           >
             <button
               // className="bg-red-400 text-lg rounded-lg px-5 py-2 mt-3"
-              className="bg-[#ff614f] font-semibold shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105"
+              className="bg-[#ff614f] text-2xl shadow-md rounded-lg w-64 p-4 mt-4 text-center transition duration-200 ease-in-out transform hover:scale-105"
               onClick={(e) => {
                 setIsShow(true);
               }}
@@ -132,7 +135,7 @@ export default function Home() {
             </button>
           </div>
           <div className="rounded-lg bg-red-300 p-4 mb-6">
-            <h2 className="text-lg font-semibold mb-4">
+            <h2 className="text-3xl mb-4">
               Quick Makeup Tutorials For Beginner
             </h2>
             {/* Placeholder for makeup tutorials */}

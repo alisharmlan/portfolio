@@ -5,6 +5,7 @@ import { useAuthContext } from '@/context/AuthContext';
 import getDocuments from '@/firebase/firestore/getData';
 import fetchUser, {User} from './GetUser';
 import Recommender from '@/app/Recommender';
+import Header from '@/app/components/Header';
 
 const ProfilePage: React.FC = () => {
   const authContext = useAuthContext();
@@ -87,7 +88,10 @@ const ProfilePage: React.FC = () => {
   }, [user]);
 
   return (
-    <div className="bg-pink-200 min-h-screen flex items-center justify-center p-4">
+    <div className="bg-pink-200 min-h-screen flex flex-col items-center justify-center p-4">
+      <div className='items-start justify-start w-full'>
+        <Header user={user?.toString()}/>
+      </div>
       <div className="bg-white w-full max-w-3xl rounded-lg shadow-lg p-6">
         <div className="flex flex-col items-center pt-4">
           <h1 className="text-4xl font-bold text-pink-700">My Beauty Profile</h1>

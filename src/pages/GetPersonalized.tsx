@@ -1,5 +1,6 @@
 import '@/app/globals.css';
 import React, { useEffect } from 'react';
+import { lilita } from '@/app/layout';
 import signIn from "@/firebase/auth/signin";
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
@@ -60,21 +61,23 @@ const GetPersonalizedPage = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
-      <div className="font-poppins bg-red-100 shadow-xl rounded-lg p-8 mb-4 text-red-400">
+    <div className="flex justify-center items-center h-full p-10 w-full bg-gradient-to-br from-[#fc8f83] to-[#f7ccc8]">
+      <div
+        className={`${lilita.className}  bg-red-100 shadow-xl rounded-lg p-8 mb-4 text-red-400`}
+      >
         <form onSubmit={handleForm} className="w-full">
-          <h1 className="text-4xl font-bold mb-4 text-red-500">
+          <h1 className="text-6xl mb-4 text-red-500">
             Let us Get Personalized
           </h1>
-          <h2 className="text-xl font-semibold text-red-500">
+          <h2 className="text-3xl  text-red-500">
             Update your make up preference
           </h2>
           <h2 className="text-xl mb-8 ">
             It will help the website to recommend the most suitable make up for
             you
           </h2>
-          <div className="mb-4">
-            <label className="block  text-sm font-semibold mb-2" htmlFor="Name">
+          <div className="mb-4 text-2xl ">
+            <label className="block mb-2 text-red-500" htmlFor="Name">
               Name
             </label>
             <input
@@ -82,13 +85,14 @@ const GetPersonalizedPage = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3  leading-tight focus:outline-red-400"
               id="Name"
               type="text"
+              value={name}
               placeholder={name}
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block  text-sm font-semibold mb-2" htmlFor="Age">
+          <div className="mb-4 text-2xl">
+            <label className="block mb-2 text-red-500" htmlFor="Age">
               Age
             </label>
             <input
@@ -96,16 +100,17 @@ const GetPersonalizedPage = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-red-400"
               id="Age"
               type="number"
+              value={age?.toString()}
               placeholder={age?.toString()}
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm  font-semibold mb-2" htmlFor="Age">
+          <div className="mb-4 text-2xl ">
+            <label className="block mb-2 text-red-500" htmlFor="Age">
               Skintype
             </label>
-            <div className="grid grid-flow-col-dense focus:ring-red-600">
+            <div className="grid grid-flow-col-dense focus:ring-red-600 text-lg">
               <label className="mr-5 ">
                 <input
                   className="mr-2 "
@@ -150,10 +155,10 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block  text-sm font-semibold mb-2">
+            <label className="block text-2xl mb-2 text-red-500">
               Skincolor
             </label>
-            <div className="grid grid-flow-col-dense ">
+            <div className="grid grid-flow-col-dense text-lg">
               <label className="mr-2">
                 <input
                   className="mr-2"
@@ -218,10 +223,8 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block  text-sm font-semibold mb-2">
-              Skintone
-            </label>
-            <div className="grid grid-flow-col-dense ">
+            <label className="block text-2xl mb-2 text-red-500">Skintone</label>
+            <div className="grid grid-flow-col-dense text-lg">
               <label className="mr-5">
                 <input
                   className="mr-2"
@@ -266,10 +269,10 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block  text-sm font-semibold mb-2">
+            <label className="block text-2xl mb-2 text-red-500">
               Undertone
             </label>
-            <div className="grid grid-flow-col-dense ">
+            <div className="grid grid-flow-col-dense text-lg">
               <label className="mr-2">
                 <input
                   className="mr-2"
@@ -315,7 +318,7 @@ const GetPersonalizedPage = () => {
 
           <div className="mb-4">
             <label
-              className="block  text-sm font-semibold mb-2"
+              className="block  text-2xl  mb-2 text-red-500"
               htmlFor="Allergy"
             >
               Allergy
@@ -330,8 +333,8 @@ const GetPersonalizedPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block  text-sm font-semibold mb-2">Price</label>
-            <div className="grid grid-flow-col-dense ">
+            <label className="block  text-2xl  mb-2 text-red-500">Price</label>
+            <div className="grid grid-flow-col-dense text-lg">
               <label className="mr-2">
                 <input
                   className="mr-2"
@@ -356,7 +359,7 @@ const GetPersonalizedPage = () => {
           </div>
           <div className="grid grid-flow-col mt-10">
             <button
-              className="mr-5 font-poppins text-[#fa7061] hover:text-red-500 bg-red-100 font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
+              className="mr-5  text-[#fa7061] hover:text-red-500 bg-red-100  py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
               type="button"
               onClick={() => {
                 router.push("/");
@@ -365,7 +368,7 @@ const GetPersonalizedPage = () => {
               Back
             </button>
             <button
-              className="font-poppins bg-[#fc8f83] hover:hover:bg-[#fa7061] text-white font-semibold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
+              className=" bg-[#fc8f83] hover:hover:bg-[#fa7061] text-white  py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300"
               type="submit"
             >
               Get me personalized now!
